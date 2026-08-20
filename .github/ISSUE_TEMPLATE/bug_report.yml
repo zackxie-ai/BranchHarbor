@@ -1,0 +1,64 @@
+name: Bug report
+description: Report a reproducible CloudAgent defect. Do not report vulnerabilities here.
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Remove credentials, cookies, private code, and personal data before submitting.
+
+  - type: checkboxes
+    attributes:
+      label: Security check
+      options:
+        - label: This is not a security vulnerability. Security reports must follow SECURITY.md.
+          required: true
+
+  - type: input
+    attributes:
+      label: Version or Commit
+      placeholder: v0.1.0-alpha.0 or Git SHA
+    validations:
+      required: true
+
+  - type: dropdown
+    attributes:
+      label: Area
+      options:
+        - Web UI
+        - Authentication or authorization
+        - Git or Worktree
+        - Runner or preview
+        - Agent Gateway
+        - Credentials or OpenBao
+        - Temporal workflow
+        - Integration or validation
+        - Setup or documentation
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Reproduction
+      description: Provide minimal steps and sanitized inputs.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Actual behavior and sanitized logs
+    validations:
+      required: true
+
+  - type: input
+    attributes:
+      label: Environment
+      placeholder: macOS/Linux, Docker version, Node version, architecture
+    validations:
+      required: true

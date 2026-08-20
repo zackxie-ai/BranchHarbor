@@ -1,0 +1,31 @@
+.DS_Store
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Runtime state
+infra/data/
+logs/
+tmp/
+runtime/
+*.log
+
+# Dependencies and build outputs
+node_modules/
+**/node_modules/
+.next/
+**/.next/
+dist/
+.turbo/
+target/
+coverage/
+*.tsbuildinfo
+
+.concord/
+
+# Local coding-agent configuration
+.codex/
+.cursor/
+.mcp.json
+CLAUDE.md
