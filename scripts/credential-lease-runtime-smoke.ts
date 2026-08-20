@@ -23,7 +23,7 @@ const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url))
 const ownerId = randomUUID();
 const projectId = randomUUID();
 const runtimePath = path.join(config.runtimeRoot, "credential-lease-runtime-smoke", projectId);
-const apiKey = `cloudagent-lease-runtime-${randomUUID()}`;
+const apiKey = `branchharbor-lease-runtime-${randomUUID()}`;
 
 async function main() {
   let connectionId: string | null = null;
@@ -35,7 +35,7 @@ async function main() {
     await mkdir(runtimePath, { recursive: true });
     await query("INSERT INTO users (id, email, name) VALUES ($1,$2,$3)", [
       ownerId,
-      `credential-lease-runtime-${ownerId.slice(0, 8)}@cloudagent.local`,
+      `credential-lease-runtime-${ownerId.slice(0, 8)}@branchharbor.local`,
       "Credential Lease Runtime Owner",
     ]);
     await query(

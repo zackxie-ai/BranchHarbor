@@ -6,7 +6,7 @@ import { getCurrentUser } from "@/lib/auth";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "CloudAgent Control Plane",
+  title: "BranchHarbor Control Plane",
   description: "Multi-user orchestration for bring-your-own coding agents",
 };
 
@@ -19,7 +19,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
           <Link className="brand" href="/">
             <span className="brand-mark">CA</span>
             <span>
-              <strong>CloudAgent</strong>
+              <strong>BranchHarbor</strong>
               <small>Control Plane</small>
             </span>
           </Link>

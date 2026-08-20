@@ -47,19 +47,19 @@ else
 fi
 if docker compose --env-file .env -f infra/compose.yml exec -T temporal \
   tctl --address temporal:7233 taskqueue describe \
-  --taskqueue "${TEMPORAL_TASK_QUEUE:-cloudagent-control-plane}" 2>/dev/null | grep -Eq '[0-9]+@'; then
-  printf 'OK   %-12s %s\n' TemporalWorker "${TEMPORAL_TASK_QUEUE:-cloudagent-control-plane}"
+  --taskqueue "${TEMPORAL_TASK_QUEUE:-branchharbor-control-plane}" 2>/dev/null | grep -Eq '[0-9]+@'; then
+  printf 'OK   %-12s %s\n' TemporalWorker "${TEMPORAL_TASK_QUEUE:-branchharbor-control-plane}"
 else
-  printf 'FAIL %-12s %s\n' TemporalWorker "${TEMPORAL_TASK_QUEUE:-cloudagent-control-plane}"
+  printf 'FAIL %-12s %s\n' TemporalWorker "${TEMPORAL_TASK_QUEUE:-branchharbor-control-plane}"
   failures=$((failures + 1))
 fi
 check_http OpenBao "http://127.0.0.1:${OPENBAO_PORT}/v1/sys/health"
 check_tcp PostgreSQL "${POSTGRES_PORT}"
 
 if nc -z 127.0.0.1 "${CONTROL_PLANE_PORT:-3210}" >/dev/null 2>&1; then
-  check_http CloudAgent "http://127.0.0.1:${CONTROL_PLANE_PORT:-3210}/api/health"
+  check_http BranchHarbor "http://127.0.0.1:${CONTROL_PLANE_PORT:-3210}/api/health"
 else
-  printf 'SKIP %-12s control plane is stopped\n' CloudAgent
+  printf 'SKIP %-12s control plane is stopped\n' BranchHarbor
 fi
 
 exit "$failures"

@@ -1,6 +1,6 @@
 # Support
 
-CloudAgent is community-maintained alpha software.
+BranchHarbor is community-maintained alpha software.
 
 - Use GitHub Discussions for setup questions and design conversations when enabled.
 - Use GitHub Issues for reproducible bugs and scoped feature requests.

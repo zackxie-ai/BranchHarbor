@@ -72,7 +72,7 @@ const monitorActivities = proxyActivities<WorkflowActivities>({
 export async function provisionTaskWorkspaceWorkflow(input: TaskOperationInput) {
   const result = await standardActivities.provisionTaskWorkspaceActivity(input);
   await startChild(taskWorkspaceMonitorWorkflow, {
-    workflowId: `cloudagent-task-workspace-monitor-${input.taskId}`,
+    workflowId: `branchharbor-task-workspace-monitor-${input.taskId}`,
     args: [{ taskId: input.taskId, actorId: input.actorId }],
     parentClosePolicy: ParentClosePolicy.ABANDON,
     workflowIdReusePolicy: "REJECT_DUPLICATE",

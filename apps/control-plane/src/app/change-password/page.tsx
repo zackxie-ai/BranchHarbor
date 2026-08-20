@@ -20,7 +20,7 @@ export default async function ChangePasswordPage({
       <div className="panel auth-panel">
         <span className="eyebrow">Account security</span>
         <h1>{actor.mustChangePassword ? "Change your initial password" : "Change password"}</h1>
-        <p>A successful password change revokes CloudAgent sessions on every other browser and device.</p>
+        <p>A successful password change revokes BranchHarbor sessions on every other browser and device.</p>
         {query.error && <div className="auth-error" role="alert">{query.error}</div>}
         <form className="form" action={changePasswordAction}>
           <label>

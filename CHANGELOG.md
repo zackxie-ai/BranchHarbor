@@ -1,16 +1,18 @@
 # Changelog
 
-All notable changes to CloudAgent are documented in this file. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and versions follow [Semantic Versioning](https://semver.org/).
+All notable changes to BranchHarbor are documented in this file. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and versions follow [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
-No unreleased changes.
+### Changed
+
+- Renamed the project and all public, runtime, package, and development identifiers to BranchHarbor.
 
 ## [0.1.0-alpha.0] - 2026-08-20
 
 ### Added
 
-- Multi-user CloudAgent control plane with Admin/member authorization.
+- Multi-user BranchHarbor control plane with Admin/member authorization.
 - Gitea project repositories, protected `main`, task branches, and isolated Worktrees.
 - Docker Runner lifecycle, application previews, and Temporal workflows.
 - Codex JSONL, ACP stdio, and OpenAI-compatible model API Agent connections.

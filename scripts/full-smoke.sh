@@ -4,6 +4,15 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
+if [[ ! -f .env ]]; then
+  echo ".env is missing; run make bootstrap first." >&2
+  exit 1
+fi
+
+set -a
+source .env
+set +a
+
 smoke_tests=(
   test:membership-invitation
   test:project-membership
@@ -32,4 +41,4 @@ for smoke_test in "${smoke_tests[@]}"; do
   pnpm "$smoke_test"
 done
 
-printf '\nCloudAgent smoke suite passed (%s probes).\n' "${#smoke_tests[@]}"
+printf '\nBranchHarbor smoke suite passed (%s probes).\n' "${#smoke_tests[@]}"

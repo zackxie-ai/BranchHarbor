@@ -36,7 +36,7 @@ const originPath = path.join(projectRoot, "origin.git");
 const seedPath = path.join(projectRoot, "seed");
 const repositoryPath = path.join(projectRoot, "repository");
 const credentialRef = `openbao://secret/agent-connections/${connectionId}`;
-const mockApiKey = "cloudagent-merge-plan-smoke-key";
+const mockApiKey = "branchharbor-merge-plan-smoke-key";
 
 async function git(cwd: string, args: string[]) {
   return execFileAsync("git", args, { cwd });
@@ -45,15 +45,15 @@ async function git(cwd: string, args: string[]) {
 async function main() {
   let mergePlanRunId: string | null = null;
   try {
-    await mkdir(path.join(seedPath, ".cloudagent"), { recursive: true });
+    await mkdir(path.join(seedPath, ".branchharbor"), { recursive: true });
     await execFileAsync("git", ["init", "--bare", originPath]);
     await execFileAsync("git", ["init", seedPath]);
-    await git(seedPath, ["config", "user.name", "CloudAgent Smoke"]);
-    await git(seedPath, ["config", "user.email", "smoke@cloudagent.local"]);
+    await git(seedPath, ["config", "user.name", "BranchHarbor Smoke"]);
+    await git(seedPath, ["config", "user.email", "smoke@branchharbor.local"]);
     await git(seedPath, ["checkout", "-b", "main"]);
     await copyFile(
       path.join(repositoryRoot, "scripts/fixtures/mock-merge-plan-agent.mjs"),
-      path.join(seedPath, ".cloudagent/mock-merge-plan-agent.mjs"),
+      path.join(seedPath, ".branchharbor/mock-merge-plan-agent.mjs"),
     );
     await execFileAsync("sh", ["-lc", "mkdir -p src && printf 'export interface Contract { value: string }\\n' > src/contract.ts"], {
       cwd: seedPath,
@@ -134,7 +134,7 @@ async function main() {
       protocol: "acp",
       launcherCommand: "node",
       launcherArguments: [
-        "/home/gem/project/.cloudagent/mock-merge-plan-agent.mjs",
+        "/home/gem/project/.branchharbor/mock-merge-plan-agent.mjs",
         independent.id,
         foundation.id,
         dependent.id,

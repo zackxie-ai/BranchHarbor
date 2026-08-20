@@ -31,7 +31,7 @@ import type {
 } from "./contracts";
 
 declare global {
-  var cloudAgentTemporalClientPromise: Promise<Client> | undefined;
+  var branchHarborTemporalClientPromise: Promise<Client> | undefined;
 }
 
 async function createTemporalClient(): Promise<Client> {
@@ -45,13 +45,18 @@ async function createTemporalClient(): Promise<Client> {
 }
 
 function getTemporalClient(): Promise<Client> {
-  if (!global.cloudAgentTemporalClientPromise) {
-    global.cloudAgentTemporalClientPromise = createTemporalClient().catch((error) => {
-      global.cloudAgentTemporalClientPromise = undefined;
+  if (!global.branchHarborTemporalClientPromise) {
+    global.branchHarborTemporalClientPromise = createTemporalClient().catch((error) => {
+      global.branchHarborTemporalClientPromise = undefined;
       throw error;
     });
   }
-  return global.cloudAgentTemporalClientPromise;
+  return global.branchHarborTemporalClientPromise;
+}
+
+export async function durableWorkflowResult<Result>(workflowId: string): Promise<Result> {
+  const client = await getTemporalClient();
+  return (await client.workflow.getHandle(workflowId).result()) as Result;
 }
 
 async function executeWorkflow<Result>(input: {
@@ -142,7 +147,7 @@ export function durableProvisionTaskWorkspace(
 ): Promise<ProvisionTaskResult> {
   return executeWorkflow({
     workflowType: "provisionTaskWorkspaceWorkflow",
-    workflowId: `cloudagent-task-workspace-${input.taskId}`,
+    workflowId: `branchharbor-task-workspace-${input.taskId}`,
     args: [input],
     entityType: "task",
     entityId: input.taskId,
@@ -154,7 +159,7 @@ export function durableProvisionTaskWorkspace(
 export function durableStartTaskRunner(input: TaskOperationInput): Promise<StartRunnerResult> {
   return executeWorkflow({
     workflowType: "startTaskRunnerWorkflow",
-    workflowId: `cloudagent-task-runner-${input.taskId}-${randomUUID()}`,
+    workflowId: `branchharbor-task-runner-${input.taskId}-${randomUUID()}`,
     args: [input],
     entityType: "task",
     entityId: input.taskId,
@@ -166,7 +171,7 @@ export function durableStartTaskRunner(input: TaskOperationInput): Promise<Start
 export function durableCancelTask(input: TaskOperationInput): Promise<CancelTaskResult> {
   return executeWorkflow({
     workflowType: "cancelTaskWorkflow",
-    workflowId: `cloudagent-task-cancel-${input.taskId}`,
+    workflowId: `branchharbor-task-cancel-${input.taskId}`,
     args: [input],
     entityType: "task",
     entityId: input.taskId,
@@ -178,7 +183,7 @@ export function durableCancelTask(input: TaskOperationInput): Promise<CancelTask
 export function durableSubmitTaskChange(input: SubmitTaskInput): Promise<SubmitTaskResult> {
   return executeWorkflow({
     workflowType: "submitTaskChangeWorkflow",
-    workflowId: `cloudagent-task-submit-${input.taskId}-${randomUUID()}`,
+    workflowId: `branchharbor-task-submit-${input.taskId}-${randomUUID()}`,
     args: [input],
     entityType: "task",
     entityId: input.taskId,
@@ -191,7 +196,7 @@ export function durableRunTaskAgent(
 ): Promise<StartedWorkflowResult> {
   return startWorkflow({
     workflowType: "runTaskAgentWorkflow",
-    workflowId: `cloudagent-agent-${input.taskId}-${randomUUID()}`,
+    workflowId: `branchharbor-agent-${input.taskId}-${randomUUID()}`,
     args: [input],
     entityType: "task",
     entityId: input.taskId,
@@ -204,7 +209,7 @@ export function durableRunIntegrationAgent(
 ): Promise<StartedWorkflowResult> {
   return startWorkflow({
     workflowType: "runIntegrationAgentWorkflow",
-    workflowId: `cloudagent-integration-agent-${input.integrationId}-${randomUUID()}`,
+    workflowId: `branchharbor-integration-agent-${input.integrationId}-${randomUUID()}`,
     args: [input],
     entityType: "integration",
     entityId: input.integrationId,
@@ -217,7 +222,7 @@ export function durableRunProjectMergePlanAgent(
 ): Promise<StartedWorkflowResult> {
   return startWorkflow({
     workflowType: "runProjectMergePlanAgentWorkflow",
-    workflowId: `cloudagent-merge-plan-agent-${input.runId}`,
+    workflowId: `branchharbor-merge-plan-agent-${input.runId}`,
     args: [input],
     entityType: "project_merge_plan_agent_run",
     entityId: input.runId,
@@ -230,7 +235,7 @@ export function durableRunProjectValidation(
 ): Promise<StartedWorkflowResult> {
   return startWorkflow({
     workflowType: "runProjectValidationWorkflow",
-    workflowId: `cloudagent-project-validation-${input.runId}`,
+    workflowId: `branchharbor-project-validation-${input.runId}`,
     args: [input],
     entityType: "project_validation_run",
     entityId: input.runId,
@@ -243,7 +248,7 @@ export function durableStartIntegration(
 ): Promise<StartIntegrationResult> {
   return executeWorkflow({
     workflowType: "startIntegrationWorkflow",
-    workflowId: `cloudagent-integration-${input.changeRequestId}`,
+    workflowId: `branchharbor-integration-${input.changeRequestId}`,
     args: [input],
     entityType: "change_request",
     entityId: input.changeRequestId,
@@ -257,7 +262,7 @@ export function durableFinalizeIntegration(
 ): Promise<FinalizeIntegrationResult> {
   return executeWorkflow({
     workflowType: "finalizeIntegrationWorkflow",
-    workflowId: `cloudagent-finalize-${input.integrationId}`,
+    workflowId: `branchharbor-finalize-${input.integrationId}`,
     args: [input],
     entityType: "integration",
     entityId: input.integrationId,

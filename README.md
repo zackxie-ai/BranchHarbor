@@ -1,16 +1,16 @@
-# CloudAgent
+# BranchHarbor
 
 [![Status](https://img.shields.io/badge/status-v0.1.0--alpha-orange)](CHANGELOG.md)
 [![License](https://img.shields.io/badge/license-MIT-2ea44f)](LICENSE)
 [![Node](https://img.shields.io/badge/node-20%2B-339933)](package.json)
 
-CloudAgent is an open-source control plane for teams that want to develop one Git project with multiple people, multiple coding agents, and bring-your-own model credentials.
+BranchHarbor is an open-source control plane for teams that want to develop one Git project with multiple people, multiple coding agents, and bring-your-own model credentials.
 
-Each task receives an isolated Git branch, Worktree, and sandbox Runner. Team members can use an ACP/Codex adapter or provide only an OpenAI-compatible model API such as DeepSeek. CloudAgent supplies the hosted coding-agent tool loop, records real Git and verification evidence, and keeps final integration under Admin control.
+Each task receives an isolated Git branch, Worktree, and sandbox Runner. Team members can use an ACP/Codex adapter or provide only an OpenAI-compatible model API such as DeepSeek. BranchHarbor supplies the hosted coding-agent tool loop, records real Git and verification evidence, and keeps final integration under Admin control.
 
 > **Alpha software, local development only.** The default Compose stack uses development credentials and OpenBao development mode. Do not expose it to the public internet. Read [SECURITY.md](SECURITY.md) and [the security model](docs/SECURITY_MODEL.md) first.
 
-## Why CloudAgent
+## Why BranchHarbor
 
 - One canonical Git repository per project.
 - One isolated branch, Worktree, Runner, and Agent session per task.
@@ -26,12 +26,12 @@ Each task receives an isolated Git branch, Worktree, and sandbox Runner. Team me
 
 ```mermaid
 flowchart TD
-  U["Team members"] --> CP["CloudAgent Web and API"]
+  U["Team members"] --> CP["BranchHarbor Web and API"]
   CP --> PG["PostgreSQL"]
   CP --> GT["Gitea"]
   CP --> OB["OpenBao"]
   CP --> TP["Temporal"]
-  TP --> WK["CloudAgent Worker"]
+  TP --> WK["BranchHarbor Worker"]
   WK --> RN["Isolated task or integration Runner"]
   RN --> AG["ACP or Codex Agent"]
   RN --> API["OpenAI-compatible model API"]
@@ -39,11 +39,11 @@ flowchart TD
   WT --> GT
 ```
 
-The platform treats Agent messages as untrusted. Git state, changed files, verification output, approvals, and merge ancestry are calculated or verified by CloudAgent.
+The platform treats Agent messages as untrusted. Git state, changed files, verification output, approvals, and merge ancestry are calculated or verified by BranchHarbor.
 
 ## Current Status
 
-CloudAgent `v0.1.0-alpha` is a functional local MVP, not a hosted service or production-ready deployment.
+BranchHarbor `v0.1.0-alpha` is a functional local MVP, not a hosted service or production-ready deployment.
 
 Implemented:
 
@@ -75,7 +75,7 @@ Windows users should use WSL2; it is not yet part of the validated matrix.
 Clone this repository, then run:
 
 ```bash
-cd CloudAgent
+cd BranchHarbor
 corepack enable
 pnpm install --frozen-lockfile
 make bootstrap
@@ -88,8 +88,8 @@ Local development accounts:
 
 | Role | Email | Initial password |
 |---|---|---|
-| Admin | `admin@cloudagent.local` | `cloudagent-admin-change-me` |
-| Member | `member@cloudagent.local` | `cloudagent-member-change-me` |
+| Admin | `admin@branchharbor.local` | `branchharbor-admin-change-me` |
+| Member | `member@branchharbor.local` | `branchharbor-member-change-me` |
 
 These credentials are local fixtures. The UI forces an initial password change. Never reuse them outside local development.
 
@@ -97,7 +97,7 @@ Local services:
 
 | Service | Address |
 |---|---|
-| CloudAgent | `http://127.0.0.1:3210` |
+| BranchHarbor | `http://127.0.0.1:3210` |
 | Gitea | `http://127.0.0.1:3100` |
 | OpenBao | `http://127.0.0.1:8200` |
 | PostgreSQL | `127.0.0.1:5432` |
@@ -110,9 +110,9 @@ Stop the infrastructure with `make down`.
 2. Use provider `deepseek`, base URL `https://api.deepseek.com`, and model `deepseek-chat`.
 3. Enter your own DeepSeek API Key. The Key is written to OpenBao, not PostgreSQL.
 4. Assign the connection to a task and start its Worktree and Runner.
-5. CloudAgent sends the task and tool definitions to DeepSeek, executes requested shell commands inside the isolated Runner, returns results to the model, and continues until completion.
+5. BranchHarbor sends the task and tool definitions to DeepSeek, executes requested shell commands inside the isolated Runner, returns results to the model, and continues until completion.
 
-No separate Agent API is required. The Agent is the combination of CloudAgent's hosted tool loop and the user's model API. Provider usage is still billed by that provider.
+No separate Agent API is required. The Agent is the combination of BranchHarbor's hosted tool loop and the user's model API. Provider usage is still billed by that provider.
 
 Other APIs can be used when they implement OpenAI-compatible Chat Completions tool calls.
 
@@ -150,7 +150,7 @@ runtime/                         Local repositories and Worktrees; never committ
 
 ## Security
 
-CloudAgent deliberately executes model-requested commands. Those commands run in task-specific sandbox containers, but this alpha is not a hardened multi-tenant security boundary. The default OpenBao root token, fixture passwords, HTTP endpoints, and local Docker access are unsuitable for public deployment.
+BranchHarbor deliberately executes model-requested commands. Those commands run in task-specific sandbox containers, but this alpha is not a hardened multi-tenant security boundary. The default OpenBao root token, fixture passwords, HTTP endpoints, and local Docker access are unsuitable for public deployment.
 
 Report vulnerabilities privately according to [SECURITY.md](SECURITY.md). Do not include API Keys, session cookies, or exploit details in public issues.
 
@@ -160,4 +160,4 @@ Contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CON
 
 ## License
 
-CloudAgent is available under the [MIT License](LICENSE). Third-party packages and container images retain their own licenses.
+BranchHarbor is available under the [MIT License](LICENSE). Third-party packages and container images retain their own licenses.

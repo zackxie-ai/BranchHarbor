@@ -31,7 +31,7 @@ const originPath = path.join(projectRoot, "origin.git");
 const seedPath = path.join(projectRoot, "seed");
 const repositoryPath = path.join(projectRoot, "repository");
 const credentialRef = `openbao://secret/agent-connections/${connectionId}`;
-const integrationApiKey = "cloudagent-integration-smoke-key";
+const integrationApiKey = "branchharbor-integration-smoke-key";
 
 async function git(cwd: string, args: string[]) {
   return execFileAsync("git", args, { cwd });
@@ -43,8 +43,8 @@ async function main() {
     await mkdir(projectRoot, { recursive: true });
     await execFileAsync("git", ["init", "--bare", originPath]);
     await execFileAsync("git", ["init", seedPath]);
-    await git(seedPath, ["config", "user.name", "CloudAgent Smoke"]);
-    await git(seedPath, ["config", "user.email", "smoke@cloudagent.local"]);
+    await git(seedPath, ["config", "user.name", "BranchHarbor Smoke"]);
+    await git(seedPath, ["config", "user.email", "smoke@branchharbor.local"]);
     await git(seedPath, ["checkout", "-b", "main"]);
     await execFileAsync("sh", ["-lc", "printf 'base\\n' > conflict.txt"], { cwd: seedPath });
     await git(seedPath, ["add", "conflict.txt"]);

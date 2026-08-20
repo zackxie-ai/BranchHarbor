@@ -36,7 +36,7 @@ export function errorResponse(error: unknown): Response {
 
   console.error(error);
   return Response.json(
-    { error: "CloudAgent encountered an unexpected error", code: "INTERNAL_ERROR" },
+    { error: "BranchHarbor encountered an unexpected error", code: "INTERNAL_ERROR" },
     { status: 500 },
   );
 }

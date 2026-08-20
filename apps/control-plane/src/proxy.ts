@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 
-const cookieName = process.env.AUTH_COOKIE_NAME ?? "cloudagent_session";
+const cookieName = process.env.AUTH_COOKIE_NAME ?? "branchharbor_session";
 
 export function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;

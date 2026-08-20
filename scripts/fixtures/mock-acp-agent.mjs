@@ -32,7 +32,7 @@ lines.on("line", (line) => {
       result: {
         protocolVersion: message.params.protocolVersion,
         agentCapabilities: { loadSession: true },
-        agentInfo: { name: "cloudagent-mock", version: "1.0.0" },
+        agentInfo: { name: "branchharbor-mock", version: "1.0.0" },
       },
     });
     return;

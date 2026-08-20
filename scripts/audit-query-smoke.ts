@@ -29,7 +29,7 @@ async function main() {
   try {
     await query("INSERT INTO users (id, email, name) VALUES ($1,$2,$3)", [
       memberId,
-      `${marker}@cloudagent.local`,
+      `${marker}@branchharbor.local`,
       "Audit Smoke Member",
     ]);
     await query(
@@ -69,7 +69,7 @@ async function main() {
     ]);
     await query("INSERT INTO users (id, email, name) VALUES ($1,$2,$3)", [
       otherUserId,
-      `other-${marker}@cloudagent.local`,
+      `other-${marker}@branchharbor.local`,
       "Other Audit User",
     ]);
     await query(

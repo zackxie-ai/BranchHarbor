@@ -124,7 +124,7 @@ export async function runCodexSession(input: {
     throw new AppError("Task runner is not running", 409, "RUNNER_NOT_RUNNING");
   }
 
-  const tempDirectory = await mkdtemp(path.join(os.tmpdir(), "cloudagent-codex-"));
+  const tempDirectory = await mkdtemp(path.join(os.tmpdir(), "branchharbor-codex-"));
   const environmentFile = path.join(tempDirectory, "agent.env");
   await writeFile(environmentFile, `OPENAI_API_KEY=${input.apiKey}\n`, { mode: 0o600 });
 
@@ -289,7 +289,7 @@ const OPENAI_COMPATIBLE_TOOLS = [
     function: {
       name: "run_shell",
       description:
-        "Run a shell command in the isolated CloudAgent workspace. Use it to inspect files, edit code, run tests, and create Git commits.",
+        "Run a shell command in the isolated BranchHarbor workspace. Use it to inspect files, edit code, run tests, and create Git commits.",
       parameters: {
         type: "object",
         properties: {
@@ -315,7 +315,7 @@ function openAiCompatibleEndpoint(apiBaseUrl: string): string {
 function truncateToolOutput(output: string, maxLength = 40_000): string {
   if (output.length <= maxLength) return output;
   const half = Math.floor(maxLength / 2);
-  return `${output.slice(0, half)}\n\n[CloudAgent truncated ${output.length - maxLength} characters]\n\n${output.slice(-half)}`;
+  return `${output.slice(0, half)}\n\n[BranchHarbor truncated ${output.length - maxLength} characters]\n\n${output.slice(-half)}`;
 }
 
 async function fetchOpenAiCompatibleResponse(input: {
@@ -411,7 +411,7 @@ export async function runOpenAiCompatibleSession(input: {
     {
       role: "system",
       content: [
-        "You are a coding Agent hosted by CloudAgent.",
+        "You are a coding Agent hosted by BranchHarbor.",
         "Use run_shell to inspect and change the repository in the isolated workspace.",
         "Follow the user's task policy exactly, verify your work, and report the concrete result.",
         "Do not claim a command succeeded unless you observed its output.",
@@ -515,7 +515,7 @@ export async function runOpenAiCompatibleSession(input: {
       } catch (error) {
         result = {
           exitCode: 1,
-          output: `CloudAgent tool error: ${error instanceof Error ? error.message : String(error)}`,
+          output: `BranchHarbor tool error: ${error instanceof Error ? error.message : String(error)}`,
         };
       }
       const toolContent = truncateToolOutput(
@@ -556,7 +556,7 @@ export async function runAcpSession(input: {
     throw new AppError("ACP Agent launcher command is missing", 409, "AGENT_LAUNCHER_MISSING");
   }
 
-  const tempDirectory = await mkdtemp(path.join(os.tmpdir(), "cloudagent-acp-"));
+  const tempDirectory = await mkdtemp(path.join(os.tmpdir(), "branchharbor-acp-"));
   const environmentFile = path.join(tempDirectory, "agent.env");
   await writeFile(
     environmentFile,
@@ -599,7 +599,7 @@ export async function runAcpSession(input: {
     await emitEvent(input.callbacks, event);
   };
 
-  const client = createAcpClient({ name: "CloudAgent" })
+  const client = createAcpClient({ name: "BranchHarbor" })
     .onNotification("session/update", async ({ params }) => {
       if (providerSessionId && params.sessionId !== providerSessionId) {
         return;
@@ -650,7 +650,7 @@ export async function runAcpSession(input: {
       const initialization = await agent.request("initialize", {
         protocolVersion: PROTOCOL_VERSION,
         clientCapabilities: {},
-        clientInfo: { name: "CloudAgent", version: "0.1.0" },
+        clientInfo: { name: "BranchHarbor", version: "0.1.0" },
       });
       await appendEvent({
         eventType: "acp.initialized",

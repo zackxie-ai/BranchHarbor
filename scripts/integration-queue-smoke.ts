@@ -61,7 +61,7 @@ async function main() {
   try {
     await query("INSERT INTO users (id, email, name) VALUES ($1,$2,$3)", [
       memberId,
-      `integration-queue-${memberId.slice(0, 8)}@cloudagent.local`,
+      `integration-queue-${memberId.slice(0, 8)}@branchharbor.local`,
       "Integration Queue Member",
     ]);
     await query(

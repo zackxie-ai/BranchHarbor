@@ -24,11 +24,11 @@ import {
 const adminId = "00000000-0000-4000-8000-000000000101";
 const memberId = "00000000-0000-4000-8000-000000000102";
 const suffix = randomUUID().slice(0, 8);
-const acceptedEmail = `invite-smoke-${suffix}@cloudagent.local`;
-const revokedEmail = `invite-revoked-${suffix}@cloudagent.local`;
-const expiredEmail = `invite-expired-${suffix}@cloudagent.local`;
-const initialPassword = "cloudagent-smoke-initial-password";
-const updatedPassword = "cloudagent-smoke-updated-password";
+const acceptedEmail = `invite-smoke-${suffix}@branchharbor.local`;
+const revokedEmail = `invite-revoked-${suffix}@branchharbor.local`;
+const expiredEmail = `invite-expired-${suffix}@branchharbor.local`;
+const initialPassword = "branchharbor-smoke-initial-password";
+const updatedPassword = "branchharbor-smoke-updated-password";
 const invitationIds: string[] = [];
 let acceptedUserId: string | null = null;
 

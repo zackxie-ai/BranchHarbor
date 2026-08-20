@@ -19,10 +19,10 @@ afterEach(async () => {
 
 describe("Git worktree lifecycle", () => {
   it("creates an isolated task worktree and calculates committed Git facts", { timeout: 15_000 }, async () => {
-    const fixtureRoot = await mkdtemp(path.join(os.tmpdir(), "cloudagent-git-test-"));
+    const fixtureRoot = await mkdtemp(path.join(os.tmpdir(), "branchharbor-git-test-"));
     const runtimeRoot = path.join(fixtureRoot, "runtime");
     cleanupPaths.push(fixtureRoot);
-    process.env.CLOUDAGENT_RUNTIME_ROOT = runtimeRoot;
+    process.env.BRANCHHARBOR_RUNTIME_ROOT = runtimeRoot;
 
     const remote = path.join(fixtureRoot, "remote.git");
     const seed = path.join(fixtureRoot, "seed");
@@ -31,7 +31,7 @@ describe("Git worktree lifecycle", () => {
     await git(fixtureRoot, "init", "--bare", remote);
     await git(fixtureRoot, "clone", remote, seed);
     await git(seed, "config", "user.name", "Test User");
-    await git(seed, "config", "user.email", "test@cloudagent.local");
+    await git(seed, "config", "user.email", "test@branchharbor.local");
     await writeFile(path.join(seed, "README.md"), "# Fixture\n");
     await git(seed, "add", "README.md");
     await git(seed, "commit", "-m", "Initial commit");
@@ -54,7 +54,7 @@ describe("Git worktree lifecycle", () => {
       title: "Add product note",
       baseBranch: "main",
     });
-    await writeFile(path.join(workspace.worktreePath, "PRODUCT.md"), "CloudAgent test\n");
+    await writeFile(path.join(workspace.worktreePath, "PRODUCT.md"), "BranchHarbor test\n");
     await git(workspace.worktreePath, "add", "PRODUCT.md");
     await git(workspace.worktreePath, "commit", "-m", "Add product note");
 
@@ -117,7 +117,7 @@ describe("Git worktree lifecycle", () => {
           "--git-dir",
           remote,
           "rev-parse",
-          "refs/cloudagent/checkpoints/11111111-1111-4111-8111-111111111111^",
+          "refs/branchharbor/checkpoints/11111111-1111-4111-8111-111111111111^",
         )
       ).stdout.trim(),
     ).toBe(facts.headCommit);
@@ -134,7 +134,7 @@ describe("Git worktree lifecycle", () => {
     expect(restored.repositoryCloned).toBe(true);
     expect(restored.checkpointRestored).toBe(true);
     expect(await readFile(path.join(workspace.worktreePath, "PRODUCT.md"), "utf8")).toBe(
-      "CloudAgent test\n",
+      "BranchHarbor test\n",
     );
     expect(await readFile(path.join(workspace.worktreePath, "DRAFT.md"), "utf8")).toBe(
       "Uncommitted\n",
@@ -157,7 +157,7 @@ describe("Git worktree lifecycle", () => {
         remote,
         "show-ref",
         "--verify",
-        "refs/cloudagent/checkpoints/11111111-1111-4111-8111-111111111111",
+        "refs/branchharbor/checkpoints/11111111-1111-4111-8111-111111111111",
       ),
     ).rejects.toBeTruthy();
   });

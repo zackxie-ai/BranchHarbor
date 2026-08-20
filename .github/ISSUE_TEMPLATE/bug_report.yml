@@ -1,5 +1,5 @@
 name: Bug report
-description: Report a reproducible CloudAgent defect. Do not report vulnerabilities here.
+description: Report a reproducible BranchHarbor defect. Do not report vulnerabilities here.
 title: "[Bug]: "
 labels: [bug]
 body:

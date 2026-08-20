@@ -9,7 +9,7 @@ import type { AgentConnection, TaskRunner } from "../apps/control-plane/src/lib/
 
 const execFileAsync = promisify(execFile);
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const containerName = `cloudagent-acp-smoke-${randomUUID().slice(0, 8)}`;
+const containerName = `branchharbor-acp-smoke-${randomUUID().slice(0, 8)}`;
 const image = process.env.SANDBOX_IMAGE ?? "ghcr.io/agent-infra/sandbox:1.11.0";
 const apiKey = randomBytes(32).toString("base64url");
 
@@ -65,7 +65,7 @@ async function main() {
       "--name",
       containerName,
       "--label",
-      "cloudagent.smoke=acp",
+      "branchharbor.smoke=acp",
       "--security-opt",
       "seccomp=unconfined",
       "--shm-size",
@@ -105,7 +105,7 @@ async function main() {
       status: "running",
       baseUrl,
       hostPort,
-      workspacePath: "/tmp/cloudagent-acp-smoke",
+      workspacePath: "/tmp/branchharbor-acp-smoke",
       containerWorkspacePath: "/home/gem/workspace",
       credentialRef: "openbao://smoke",
       resourceLimits: { cpus: "1", memory: "1g" },
@@ -125,7 +125,7 @@ async function main() {
     const first = await runAcpSession({
       runner,
       connection,
-      apiKey: "cloudagent-smoke-key-1234567890",
+      apiKey: "branchharbor-smoke-key-1234567890",
       prompt: "Run the ACP smoke test.",
       callbacks: {
         onEvent: async (event) => {
@@ -148,7 +148,7 @@ async function main() {
     const resumed = await runAcpSession({
       runner,
       connection,
-      apiKey: "cloudagent-smoke-key-1234567890",
+      apiKey: "branchharbor-smoke-key-1234567890",
       prompt: "Continue the ACP smoke test.",
       providerSessionId: first.providerSessionId,
       callbacks: {
@@ -164,7 +164,7 @@ async function main() {
     const cancelled = await runAcpSession({
       runner,
       connection,
-      apiKey: "cloudagent-smoke-key-1234567890",
+      apiKey: "branchharbor-smoke-key-1234567890",
       prompt: "Please cancel this ACP turn.",
       providerSessionId: first.providerSessionId,
       callbacks: {

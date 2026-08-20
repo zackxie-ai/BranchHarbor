@@ -1,8 +1,8 @@
-# CloudAgent foundation
+# BranchHarbor foundation
 
 ## Product boundary
 
-CloudAgent owns the product-specific control plane:
+BranchHarbor owns the product-specific control plane:
 
 - organizations, users, roles, and projects;
 - one canonical Git repository per project;
@@ -26,17 +26,17 @@ Infrastructure below this boundary remains an internal implementation detail and
 | Vendor-neutral Agent protocol | ACP SDK |
 | Isolated execution and browser editor | AIO Sandbox image |
 
-CloudAgent itself implements the Web/API, Worker, task and Worktree lifecycle, Agent Gateway, live events, review UI, preview proxy, merge planning, and integration governance.
+BranchHarbor itself implements the Web/API, Worker, task and Worktree lifecycle, Agent Gateway, live events, review UI, preview proxy, merge planning, and integration governance.
 
 ## Service boundaries
 
 ```text
-CloudAgent Web/API
+BranchHarbor Web/API
 ├── PostgreSQL
 ├── Gitea
 ├── Temporal
 ├── OpenBao
-└── CloudAgent Worker
+└── BranchHarbor Worker
     └── on-demand AIO Sandbox Runner
         └── Agent process or model API adapter
 ```
@@ -47,7 +47,7 @@ The default deployment does not include a separate cache, object store, multipla
 
 | Service | Endpoint |
 |---|---|
-| CloudAgent | `http://localhost:3210` |
+| BranchHarbor | `http://localhost:3210` |
 | Gitea | `http://localhost:3100` |
 | OpenBao | `http://localhost:8200` |
 | PostgreSQL | `localhost:5432` |

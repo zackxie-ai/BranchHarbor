@@ -294,7 +294,7 @@ export async function startTaskPreview(taskId: string, input: unknown, actorId: 
   }
 
   const previewId = randomUUID();
-  const shellSessionId = `cloudagent-preview-${previewId}`;
+  const shellSessionId = `branchharbor-preview-${previewId}`;
   const directPreviewUrl = runnerPreviewUrl(runner, data.port, previewId);
   const previewUrl = `/api/task-previews/${previewId}/proxy/`;
   const preview = await insertTaskPreviewRun({
@@ -821,7 +821,7 @@ export async function runTaskAgent(
   await updateAgentSession({ sessionId: session.id, status: "running" });
 
   const policyPrompt = [
-    "You are working through CloudAgent in an isolated task Worktree.",
+    "You are working through BranchHarbor in an isolated task Worktree.",
     `Task: ${task.title}`,
     `Task description: ${task.description || "Not provided"}`,
     `Acceptance criteria: ${task.acceptanceCriteria || "Not provided"}`,
@@ -974,7 +974,7 @@ export async function createProject(input: unknown, actorId: string) {
   const slug = data.slug ?? `project-${id.slice(0, 8)}`;
   const giteaRepository = await createGiteaRepository({
     name: slug,
-    description: `${data.name} — managed by CloudAgent`,
+    description: `${data.name} — managed by BranchHarbor`,
   });
   await ensureMainBranchProtection({
     owner: giteaRepository.owner.login,
@@ -2464,7 +2464,7 @@ export async function runIntegrationAgent(
   await updateAgentSession({ sessionId: session.id, status: "running" });
 
   const policyPrompt = [
-    "You are the CloudAgent Admin Integration Agent.",
+    "You are the BranchHarbor Admin Integration Agent.",
     `Project: ${context.project.name}`,
     `Task: ${context.task.title}`,
     `Task description: ${context.task.description || "Not provided"}`,

@@ -114,7 +114,7 @@ async function launchRunner(input: {
 
   const runnerId = existing?.id ?? randomUUID();
   const containerName =
-    existing?.containerName ?? `cloudagent-${input.ownerType}-${input.ownerId.slice(0, 8)}`;
+    existing?.containerName ?? `branchharbor-${input.ownerType}-${input.ownerId.slice(0, 8)}`;
   const apiKey = randomBytes(32).toString("base64url");
   const credentialRef = existing?.credentialRef ?? `openbao://secret/runners/${runnerId}`;
   const containerWorkspacePath = input.ownerType === "merge-plan"
@@ -167,9 +167,9 @@ async function launchRunner(input: {
       "--name",
       containerName,
       "--label",
-      "cloudagent.runner=true",
+      "branchharbor.runner=true",
       "--label",
-      `cloudagent.${input.ownerType}_id=${input.ownerId}`,
+      `branchharbor.${input.ownerType}_id=${input.ownerId}`,
       "--security-opt",
       "seccomp=unconfined",
       "--shm-size",

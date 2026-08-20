@@ -11,7 +11,7 @@ const runner: TaskRunner = {
   projectMergePlanRunId: null,
   projectValidationRunId: null,
   provider: "aio-sandbox",
-  containerName: "cloudagent-task-preview",
+  containerName: "branchharbor-task-preview",
   image: "sandbox",
   status: "running",
   baseUrl: "http://127.0.0.1:49152",

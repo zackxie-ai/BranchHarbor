@@ -125,8 +125,8 @@ async function main() {
     await mkdir(projectRoot, { recursive: true });
     await execFileAsync("git", ["init", "--bare", originPath]);
     await execFileAsync("git", ["init", seedPath]);
-    await git(seedPath, ["config", "user.name", "CloudAgent Validation Smoke"]);
-    await git(seedPath, ["config", "user.email", "validation-smoke@cloudagent.local"]);
+    await git(seedPath, ["config", "user.name", "BranchHarbor Validation Smoke"]);
+    await git(seedPath, ["config", "user.email", "validation-smoke@branchharbor.local"]);
     await git(seedPath, ["checkout", "-b", "main"]);
     await writeFile(path.join(seedPath, "README.md"), "validation smoke\n");
     await git(seedPath, ["add", "README.md"]);
@@ -147,7 +147,7 @@ async function main() {
 
     await query("INSERT INTO users (id, email, name) VALUES ($1,$2,$3)", [
       memberId,
-      `project-validation-${memberId.slice(0, 8)}@cloudagent.local`,
+      `project-validation-${memberId.slice(0, 8)}@branchharbor.local`,
       "Project Validation Member",
     ]);
     await query(

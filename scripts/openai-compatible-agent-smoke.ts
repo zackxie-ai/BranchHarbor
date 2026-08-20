@@ -23,7 +23,7 @@ const execFileAsync = promisify(execFile);
 const ownerId = randomUUID();
 const projectId = randomUUID();
 const runtimePath = path.join(config.runtimeRoot, "openai-compatible-agent-smoke", projectId);
-const apiKey = `cloudagent-openai-compatible-${randomUUID()}`;
+const apiKey = `branchharbor-openai-compatible-${randomUUID()}`;
 const requests: Array<{ authorization: string | undefined; body: Record<string, unknown> }> = [];
 
 async function readRequestBody(request: NodeJS.ReadableStream): Promise<Record<string, unknown>> {
@@ -54,8 +54,8 @@ async function main() {
                     arguments: JSON.stringify({
                       command: [
                         "printf 'API agent works\\n' > API_AGENT.md",
-                        "git config user.email 'api-agent@cloudagent.local'",
-                        "git config user.name 'CloudAgent API Agent'",
+                        "git config user.email 'api-agent@branchharbor.local'",
+                        "git config user.name 'BranchHarbor API Agent'",
                         "git add API_AGENT.md",
                         "git commit -m 'Add API agent proof'",
                       ].join(" && "),
@@ -91,14 +91,14 @@ async function main() {
   try {
     await mkdir(runtimePath, { recursive: true });
     await execFileAsync("git", ["init", "-b", "main"], { cwd: runtimePath });
-    await execFileAsync("git", ["config", "user.email", "smoke@cloudagent.local"], { cwd: runtimePath });
-    await execFileAsync("git", ["config", "user.name", "CloudAgent Smoke"], { cwd: runtimePath });
+    await execFileAsync("git", ["config", "user.email", "smoke@branchharbor.local"], { cwd: runtimePath });
+    await execFileAsync("git", ["config", "user.name", "BranchHarbor Smoke"], { cwd: runtimePath });
     await execFileAsync("git", ["commit", "--allow-empty", "-m", "Initial commit"], { cwd: runtimePath });
     const { stdout: baseCommit } = await execFileAsync("git", ["rev-parse", "HEAD"], { cwd: runtimePath });
 
     await query("INSERT INTO users (id, email, name) VALUES ($1,$2,$3)", [
       ownerId,
-      `openai-compatible-${ownerId.slice(0, 8)}@cloudagent.local`,
+      `openai-compatible-${ownerId.slice(0, 8)}@branchharbor.local`,
       "OpenAI Compatible Agent Owner",
     ]);
     await query(

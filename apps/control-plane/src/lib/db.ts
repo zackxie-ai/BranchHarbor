@@ -5,18 +5,18 @@ import { config } from "./config";
 const { Client, Pool } = pg;
 
 declare global {
-  var cloudAgentPool: pg.Pool | undefined;
+  var branchHarborPool: pg.Pool | undefined;
 }
 
 export const pool =
-  global.cloudAgentPool ??
+  global.branchHarborPool ??
   new Pool({
     connectionString: config.databaseUrl,
     max: 10,
   });
 
 if (process.env.NODE_ENV !== "production") {
-  global.cloudAgentPool = pool;
+  global.branchHarborPool = pool;
 }
 
 export async function query<T extends pg.QueryResultRow>(

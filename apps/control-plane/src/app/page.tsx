@@ -50,7 +50,7 @@ export default async function HomePage() {
           <span className="eyebrow">Multiple people · Multiple Agents · Isolated Worktrees</span>
           <h1>Run the team's AI-assisted development from one control plane.</h1>
           <p>
-            Each member develops in an isolated branch with their own Agent and credentials. CloudAgent
+            Each member develops in an isolated branch with their own Agent and credentials. BranchHarbor
             records tasks, code, verification, and approvals, while the Admin decides what enters the canonical project.
           </p>
         </div>
@@ -73,7 +73,7 @@ export default async function HomePage() {
       <section className="section-head">
         <div>
           <h2>Cloud projects</h2>
-          <p>Each project maps to a Gitea repository managed by CloudAgent.</p>
+          <p>Each project maps to a Gitea repository managed by BranchHarbor.</p>
         </div>
       </section>
 
@@ -101,7 +101,7 @@ export default async function HomePage() {
           ))}
         </div>
       ) : (
-        <div className="empty">No projects yet. Create the first CloudAgent project below.</div>
+        <div className="empty">No projects yet. Create the first BranchHarbor project below.</div>
       )}
 
       {actor.role === "admin" && (
@@ -109,7 +109,7 @@ export default async function HomePage() {
           <section className="section-head">
             <div>
               <h2>Create project</h2>
-              <p>CloudAgent creates a private Gitea repository and prepares its control-plane clone.</p>
+              <p>BranchHarbor creates a private Gitea repository and prepares its control-plane clone.</p>
             </div>
           </section>
           <div className="panel">
@@ -237,7 +237,7 @@ export default async function HomePage() {
       <section className="section-head">
         <div>
           <h2>Connect a new Agent</h2>
-          <p>A model API is enough. CloudAgent can host the Agent tool loop that reads code, edits files, runs commands, and creates Git Commits.</p>
+          <p>A model API is enough. BranchHarbor can host the Agent tool loop that reads code, edits files, runs commands, and creates Git Commits.</p>
         </div>
       </section>
       <div className="panel">

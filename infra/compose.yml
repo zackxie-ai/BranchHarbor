@@ -1,4 +1,4 @@
-name: cloudagent
+name: branchharbor
 
 services:
   postgres:

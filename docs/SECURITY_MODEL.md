@@ -1,4 +1,4 @@
-# CloudAgent security model
+# BranchHarbor security model
 
 ## Scope
 
@@ -6,7 +6,7 @@ This document describes the `v0.1.0-alpha` local architecture. It is not a produ
 
 ## Trust boundaries
 
-CloudAgent has five relevant trust zones:
+BranchHarbor has five relevant trust zones:
 
 1. **Browser and user account**: submits tasks, prompts, credentials, and approvals.
 2. **Control plane and Worker**: enforce authorization, issue leases, orchestrate workflows, and access Docker.
@@ -48,7 +48,7 @@ Treat all of the following as hostile or fallible:
 - application previews;
 - user-configured OpenAI-compatible API endpoints.
 
-An Agent's statement that work is complete is not evidence. CloudAgent must continue to calculate Git and verification facts independently.
+An Agent's statement that work is complete is not evidence. BranchHarbor must continue to calculate Git and verification facts independently.
 
 ## Known alpha gaps
 

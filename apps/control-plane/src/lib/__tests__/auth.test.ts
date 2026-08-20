@@ -21,7 +21,7 @@ import {
   createMembershipInvitationSchema,
 } from "../validation";
 
-describe("CloudAgent authentication primitives", () => {
+describe("BranchHarbor authentication primitives", () => {
   it("hashes passwords with a unique salt and verifies only the correct password", async () => {
     const firstHash = await hashPassword("correct horse battery staple");
     const secondHash = await hashPassword("correct horse battery staple");
@@ -56,9 +56,9 @@ describe("CloudAgent authentication primitives", () => {
     await expect(apiResponse.json()).resolves.toMatchObject({ code: "UNAUTHENTICATED" });
   });
 
-  it("does not trust the removed x-cloudagent-user-id impersonation header", async () => {
+  it("does not trust the removed x-branchharbor-user-id impersonation header", async () => {
     const request = new NextRequest("http://localhost/api/projects", {
-      headers: { "x-cloudagent-user-id": "00000000-0000-4000-8000-000000000101" },
+      headers: { "x-branchharbor-user-id": "00000000-0000-4000-8000-000000000101" },
     });
     expect(proxy(request).status).toBe(401);
   });
@@ -69,7 +69,7 @@ describe("CloudAgent authentication primitives", () => {
   });
 });
 
-describe("CloudAgent account input policy", () => {
+describe("BranchHarbor account input policy", () => {
   it("normalizes invited emails and limits invitation lifetime", () => {
     const invitation = createMembershipInvitationSchema.parse({
       email: "  NEW.MEMBER@Example.com ",
@@ -117,7 +117,7 @@ describe("CloudAgent account input policy", () => {
   });
 });
 
-describe("CloudAgent authorization policy", () => {
+describe("BranchHarbor authorization policy", () => {
   it("rejects users without an organization membership", () => {
     expect(() => assertOrganizationMember(null)).toThrow("access");
   });

@@ -10,4 +10,4 @@ pnpm typecheck
 pnpm test
 pnpm build
 
-echo "CloudAgent release checks passed."
+echo "BranchHarbor release checks passed."

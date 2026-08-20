@@ -89,7 +89,7 @@ export interface TaskWorkspaceBackupResult {
 }
 
 function taskCheckpointRef(taskId: string): string {
-  return `refs/cloudagent/checkpoints/${taskId}`;
+  return `refs/branchharbor/checkpoints/${taskId}`;
 }
 
 async function remoteRefCommit(repositoryPath: string, ref: string): Promise<string | null> {
@@ -268,8 +268,8 @@ export async function cloneRepository(repositoryUrl: string, destination: string
     repositoryUrl,
     destination,
   ]);
-  await runGit(destination, ["config", "user.name", "CloudAgent Integration"]);
-  await runGit(destination, ["config", "user.email", "integration@cloudagent.local"]);
+  await runGit(destination, ["config", "user.name", "BranchHarbor Integration"]);
+  await runGit(destination, ["config", "user.email", "integration@branchharbor.local"]);
 }
 
 export async function ensureRepositoryClone(input: {
@@ -321,8 +321,8 @@ export async function createTaskWorktree(input: {
   await runGit(input.repositoryPath, ["branch", "-D", branchName]).catch(() => undefined);
   await mkdir(path.dirname(worktreePath), { recursive: true });
   await runGit(input.repositoryPath, ["worktree", "add", "-b", branchName, worktreePath, baseCommit]);
-  await runGit(worktreePath, ["config", "user.name", "CloudAgent Member"]);
-  await runGit(worktreePath, ["config", "user.email", "member@cloudagent.local"]);
+  await runGit(worktreePath, ["config", "user.name", "BranchHarbor Member"]);
+  await runGit(worktreePath, ["config", "user.email", "member@branchharbor.local"]);
   await runGit(
     worktreePath,
     ["push", "--set-upstream", "origin", `HEAD:refs/heads/${branchName}`],
@@ -391,7 +391,7 @@ export async function syncTaskWorkspaceBackup(input: {
     };
   }
 
-  const temporaryDirectory = await mkdtemp(path.join(os.tmpdir(), "cloudagent-checkpoint-"));
+  const temporaryDirectory = await mkdtemp(path.join(os.tmpdir(), "branchharbor-checkpoint-"));
   const environment = { GIT_INDEX_FILE: path.join(temporaryDirectory, "index") };
   try {
     await runGit(input.worktreePath, ["read-tree", "HEAD"], false, { env: environment });
@@ -432,7 +432,7 @@ export async function syncTaskWorkspaceBackup(input: {
           "-p",
           headCommit,
           "-m",
-          `CloudAgent WIP checkpoint for task ${input.taskId}`,
+          `BranchHarbor WIP checkpoint for task ${input.taskId}`,
         ],
         false,
         { env: environment },
@@ -523,8 +523,8 @@ export async function restoreTaskWorkspaceBackup(input: {
     `origin/${input.branchName}`,
   ]);
   await runGit(input.worktreePath, ["branch", "--set-upstream-to", `origin/${input.branchName}`]);
-  await runGit(input.worktreePath, ["config", "user.name", "CloudAgent Member"]);
-  await runGit(input.worktreePath, ["config", "user.email", "member@cloudagent.local"]);
+  await runGit(input.worktreePath, ["config", "user.name", "BranchHarbor Member"]);
+  await runGit(input.worktreePath, ["config", "user.email", "member@branchharbor.local"]);
 
   if (checkpointCommit) {
     await runGit(input.worktreePath, ["read-tree", "--reset", "-u", checkpointRef]);
@@ -825,8 +825,8 @@ export async function prepareIntegrationWorktree(input: {
     worktreePath,
     `origin/${input.defaultBranch}`,
   ]);
-  await runGit(worktreePath, ["config", "user.name", "CloudAgent Integration"]);
-  await runGit(worktreePath, ["config", "user.email", "integration@cloudagent.local"]);
+  await runGit(worktreePath, ["config", "user.name", "BranchHarbor Integration"]);
+  await runGit(worktreePath, ["config", "user.email", "integration@branchharbor.local"]);
 
   try {
     await runGit(worktreePath, [

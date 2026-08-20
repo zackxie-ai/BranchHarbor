@@ -1,6 +1,6 @@
-# Contributing to CloudAgent
+# Contributing to BranchHarbor
 
-CloudAgent welcomes focused bug fixes, tests, documentation, provider adapters, and improvements to Git or workflow safety.
+BranchHarbor welcomes focused bug fixes, tests, documentation, provider adapters, and improvements to Git or workflow safety.
 
 By contributing, you agree that your contribution is licensed under the repository's [MIT License](LICENSE).
 

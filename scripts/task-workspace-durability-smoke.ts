@@ -56,7 +56,7 @@ async function main() {
     await execFileAsync("git", ["init", "--bare", remotePath]);
     await execFileAsync("git", ["init", "-b", "main", seedPath]);
     await git(seedPath, ["config", "user.name", "Workspace Durability Smoke"]);
-    await git(seedPath, ["config", "user.email", "durability@cloudagent.local"]);
+    await git(seedPath, ["config", "user.email", "durability@branchharbor.local"]);
     await writeFile(path.join(seedPath, "README.md"), "base\n");
     await git(seedPath, ["add", "README.md"]);
     await git(seedPath, ["commit", "-m", "Base"]);
@@ -67,7 +67,7 @@ async function main() {
 
     await query("INSERT INTO users (id, email, name) VALUES ($1,$2,$3)", [
       memberId,
-      `durability-${memberId.slice(0, 8)}@cloudagent.local`,
+      `durability-${memberId.slice(0, 8)}@branchharbor.local`,
       "Durability Unauthorized Member",
     ]);
     await query(
@@ -180,7 +180,7 @@ async function main() {
         remotePath,
         "show-ref",
         "--verify",
-        `refs/cloudagent/checkpoints/${task.id}`,
+        `refs/branchharbor/checkpoints/${task.id}`,
       ]).catch(() => ({ stdout: "" }))
     ).stdout.trim();
     if (hiddenRef) throw new Error("Remote WIP checkpoint was not deleted after cleanup");

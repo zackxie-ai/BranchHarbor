@@ -21,7 +21,7 @@ const projectId = randomUUID();
 async function insertMember(userId: string, label: string) {
   await query("INSERT INTO users (id, email, name) VALUES ($1,$2,$3)", [
     userId,
-    `merge-planning-${label}-${userId.slice(0, 8)}@cloudagent.local`,
+    `merge-planning-${label}-${userId.slice(0, 8)}@branchharbor.local`,
     `Merge Planning ${label}`,
   ]);
   await query(

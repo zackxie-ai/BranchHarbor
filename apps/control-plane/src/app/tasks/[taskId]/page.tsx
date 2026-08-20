@@ -407,7 +407,7 @@ export default async function TaskPage({ params }: { params: Promise<{ taskId: s
                   <input name="port" type="number" min={1024} max={65535} defaultValue={3000} required />
                 </label>
                 <p className="muted auth-note">
-                  CloudAgent sets <code>PORT</code>, <code>HOST</code>, and <code>HOSTNAME</code>. If the framework ignores them, bind <code>0.0.0.0</code> explicitly in the command.
+                  BranchHarbor sets <code>PORT</code>, <code>HOST</code>, and <code>HOSTNAME</code>. If the framework ignores them, bind <code>0.0.0.0</code> explicitly in the command.
                 </p>
                 <button className="button" type="submit">Start and wait for readiness</button>
               </form>

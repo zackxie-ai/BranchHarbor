@@ -36,7 +36,7 @@ import {
   taskWorkspaceMonitorWorkflow,
 } from "../workflows";
 
-describe("CloudAgent Temporal workflows", () => {
+describe("BranchHarbor Temporal workflows", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockedWorkflow.startChild.mockResolvedValue({});
@@ -66,7 +66,7 @@ describe("CloudAgent Temporal workflows", () => {
     expect(mockedWorkflow.startChild).toHaveBeenCalledWith(
       taskWorkspaceMonitorWorkflow,
       expect.objectContaining({
-        workflowId: "cloudagent-task-workspace-monitor-task-1",
+        workflowId: "branchharbor-task-workspace-monitor-task-1",
         parentClosePolicy: "ABANDON",
       }),
     );

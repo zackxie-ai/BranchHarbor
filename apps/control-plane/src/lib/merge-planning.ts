@@ -273,7 +273,7 @@ export function buildSemanticMergePlanPrompt(input: {
   });
 
   return [
-    "You are the CloudAgent Admin Merge Planning Agent.",
+    "You are the BranchHarbor Admin Merge Planning Agent.",
     `Project: ${input.projectName}`,
     "Your job is analysis only. The mounted project workspace is read-only.",
     "Do not modify files, create commits, push branches, or attempt to update main.",

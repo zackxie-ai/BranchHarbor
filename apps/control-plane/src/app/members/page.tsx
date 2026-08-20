@@ -45,7 +45,7 @@ export default async function MembersPage() {
         <div>
           <span className="eyebrow">Organization management</span>
           <h1>Members and invitations</h1>
-          <p>Admins create one-time invitations. Invitees set their own password before entering CloudAgent.</p>
+          <p>Admins create one-time invitations. Invitees set their own password before entering BranchHarbor.</p>
         </div>
       </section>
 

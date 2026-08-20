@@ -4,16 +4,16 @@ Validated on 2026-08-20.
 
 ## Runtime services
 
-- PostgreSQL stores CloudAgent, Gitea, audit, and workflow metadata.
+- PostgreSQL stores BranchHarbor, Gitea, audit, and workflow metadata.
 - Gitea provides the default private Git repository and protected `main` branch.
-- Temporal runs durable CloudAgent workflows; its standalone debugging UI is not part of the default deployment.
+- Temporal runs durable BranchHarbor workflows; its standalone debugging UI is not part of the default deployment.
 - OpenBao stores user, Admin, and Runner credentials.
 - AIO Sandbox is started on demand for isolated task and integration Runners.
-- The CloudAgent Next.js control plane and Temporal Worker are CloudAgent-owned processes.
+- The BranchHarbor Next.js control plane and Temporal Worker are BranchHarbor-owned processes.
 
 ## Removed defaults
 
-- Clay was removed because CloudAgent now owns Agent sessions, events, permissions, and collaboration UI.
+- Clay was removed because BranchHarbor now owns Agent sessions, events, permissions, and collaboration UI.
 - Valkey was removed because no core runtime path used it.
 - MinIO was removed because artifacts and snapshots do not yet require an object store.
 - Temporal UI was removed because it was only a development debugging surface.

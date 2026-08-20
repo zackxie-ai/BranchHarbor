@@ -29,10 +29,10 @@ import {
 const adminId = "00000000-0000-4000-8000-000000000101";
 const memberId = "00000000-0000-4000-8000-000000000102";
 const operatorId = randomUUID();
-const operatorEmail = `task-preview-operator-${operatorId.slice(0, 8)}@cloudagent.local`;
+const operatorEmail = `task-preview-operator-${operatorId.slice(0, 8)}@branchharbor.local`;
 const projectId = randomUUID();
 const workspacePath = path.join(config.runtimeRoot, "preview-smoke", projectId);
-const marker = `CloudAgent Preview ${projectId.slice(0, 8)}`;
+const marker = `BranchHarbor Preview ${projectId.slice(0, 8)}`;
 const browserToken = createSessionToken();
 
 async function expectAppError(
@@ -129,7 +129,7 @@ async function main() {
       );
     }
     const response = await fetch(`${controlPlaneUrl}${preview.previewUrl}`, {
-      headers: { Cookie: `cloudagent_session=${browserToken}` },
+      headers: { Cookie: `branchharbor_session=${browserToken}` },
       signal: AbortSignal.timeout(5_000),
     });
     const html = await response.text();
@@ -141,7 +141,7 @@ async function main() {
     const assetResponse = await fetch(
       `${controlPlaneUrl}${preview.previewUrl}assets/app.js`,
       {
-        headers: { Cookie: `cloudagent_session=${browserToken}` },
+        headers: { Cookie: `branchharbor_session=${browserToken}` },
         signal: AbortSignal.timeout(5_000),
       },
     );
@@ -169,7 +169,7 @@ async function main() {
       throw new Error("Preview did not persist its stopped state");
     }
     const stoppedResponse = await fetch(`${controlPlaneUrl}${preview.previewUrl}`, {
-      headers: { Cookie: `cloudagent_session=${browserToken}` },
+      headers: { Cookie: `branchharbor_session=${browserToken}` },
       signal: AbortSignal.timeout(5_000),
     });
     if (stoppedResponse.status !== 409) {
@@ -180,7 +180,7 @@ async function main() {
       throw new Error("Preview did not restart as a new isolated run");
     }
     const restartedResponse = await fetch(`${controlPlaneUrl}${restarted.previewUrl}`, {
-      headers: { Cookie: `cloudagent_session=${browserToken}` },
+      headers: { Cookie: `branchharbor_session=${browserToken}` },
       signal: AbortSignal.timeout(5_000),
     });
     if (!restartedResponse.ok || !(await restartedResponse.text()).includes(marker)) {

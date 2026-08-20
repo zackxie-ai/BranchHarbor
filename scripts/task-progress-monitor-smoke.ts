@@ -4,13 +4,11 @@ import { mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { promisify } from "node:util";
 
-import { Client, Connection } from "@temporalio/client";
-
 const execFileAsync = promisify(execFile);
 const repositoryRoot = path.resolve(process.cwd(), "../..");
 const adminId = "00000000-0000-4000-8000-000000000101";
 const projectId = randomUUID();
-const taskQueue = `cloudagent-progress-monitor-${projectId.slice(0, 8)}`;
+const taskQueue = `branchharbor-progress-monitor-${projectId.slice(0, 8)}`;
 process.env.TEMPORAL_TASK_QUEUE = taskQueue;
 
 async function git(cwd: string, args: string[]) {
@@ -32,7 +30,7 @@ async function waitFor(
 }
 
 async function startWorker(): Promise<ChildProcessWithoutNullStreams> {
-  const worker = spawn("pnpm", ["--filter", "@cloudagent/control-plane", "worker"], {
+  const worker = spawn("pnpm", ["--filter", "@branchharbor/control-plane", "worker"], {
     cwd: repositoryRoot,
     env: { ...process.env, TEMPORAL_TASK_QUEUE: taskQueue },
     stdio: ["pipe", "pipe", "pipe"],
@@ -82,23 +80,23 @@ async function main() {
   const {
     durableCancelTask,
     durableProvisionTaskWorkspace,
+    durableWorkflowResult,
   } = await import("../apps/control-plane/src/temporal/client");
 
   const projectRoot = path.join(config.runtimeRoot, "task-progress-monitor-smoke", projectId);
   const remotePath = path.join(projectRoot, "origin.git");
   const seedPath = path.join(projectRoot, "seed");
   const repositoryPath = path.join(projectRoot, "repository");
-  const monitorWorkflowId = `cloudagent-task-workspace-monitor-`;
+  const monitorWorkflowId = `branchharbor-task-workspace-monitor-`;
   let taskId: string | null = null;
   let worker: ChildProcessWithoutNullStreams | null = null;
-  let temporalConnection: Connection | null = null;
 
   try {
     await mkdir(projectRoot, { recursive: true });
     await execFileAsync("git", ["init", "--bare", remotePath]);
     await execFileAsync("git", ["init", "-b", "main", seedPath]);
     await git(seedPath, ["config", "user.name", "Progress Monitor Smoke"]);
-    await git(seedPath, ["config", "user.email", "progress-monitor@cloudagent.local"]);
+    await git(seedPath, ["config", "user.email", "progress-monitor@branchharbor.local"]);
     await writeFile(path.join(seedPath, "README.md"), "base\n");
     await git(seedPath, ["add", "README.md"]);
     await git(seedPath, ["commit", "-m", "Base"]);
@@ -163,18 +161,8 @@ async function main() {
     );
 
     await durableCancelTask({ taskId: task.id, actorId: adminId });
-    temporalConnection = await Connection.connect({
-      address: config.temporal.address,
-      channelArgs: config.temporal.disableHttpProxy
-        ? { "grpc.enable_http_proxy": 0 }
-        : undefined,
-    });
-    const temporalClient = new Client({
-      connection: temporalConnection,
-      namespace: config.temporal.namespace,
-    });
     const monitorResult = await Promise.race([
-      temporalClient.workflow.getHandle(fullMonitorWorkflowId).result(),
+      durableWorkflowResult(fullMonitorWorkflowId),
       new Promise<never>((_, reject) =>
         setTimeout(() => reject(new Error("Monitor Workflow did not stop after cancellation")), 30_000),
       ),
@@ -201,7 +189,6 @@ async function main() {
       }),
     );
   } finally {
-    if (temporalConnection) await temporalConnection.close().catch(() => undefined);
     await stopWorker(worker).catch(() => undefined);
     if (taskId) {
       const runner = await getTaskRunner(taskId).catch(() => null);

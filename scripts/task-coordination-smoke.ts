@@ -52,8 +52,8 @@ async function main() {
     await Promise.all([mkdir(projectRoot, { recursive: true }), mkdir(foreignRepositoryPath, { recursive: true })]);
     await execFileAsync("git", ["init", "--bare", remotePath]);
     await execFileAsync("git", ["init", "-b", "main", seedPath]);
-    await git(seedPath, ["config", "user.name", "CloudAgent Coordination Smoke"]);
-    await git(seedPath, ["config", "user.email", "coordination@cloudagent.local"]);
+    await git(seedPath, ["config", "user.name", "BranchHarbor Coordination Smoke"]);
+    await git(seedPath, ["config", "user.email", "coordination@branchharbor.local"]);
     await mkdir(path.join(seedPath, "apps/control-plane"), { recursive: true });
     await writeFile(path.join(seedPath, "apps/control-plane/base.txt"), "base\n");
     await writeFile(path.join(seedPath, "README.md"), "base readme\n");
@@ -200,7 +200,7 @@ async function main() {
     await git(taskAWorkspace.worktreePath, ["commit", "-m", "Change outside declared scope"]);
     const changeRequest = await submitTaskChange(
       taskA.id,
-      { summary: "Verify that CloudAgent reports committed files outside the declared task scope.", risks: [] },
+      { summary: "Verify that BranchHarbor reports committed files outside the declared task scope.", risks: [] },
       adminId,
     );
     if (!changeRequest.risks.some((risk) => risk.includes("README.md"))) {

@@ -15,14 +15,14 @@ import {
 import { destroyRunner, launchTaskRunner } from "../apps/control-plane/src/lib/runner";
 import { startTaskPreview } from "../apps/control-plane/src/lib/services";
 
-const password = "cloudagent-preview-ui-password";
+const password = "branchharbor-preview-ui-password";
 
 async function createFixture() {
   const userId = randomUUID();
   const projectId = randomUUID();
-  const email = `preview-ui-${userId.slice(0, 8)}@cloudagent.local`;
+  const email = `preview-ui-${userId.slice(0, 8)}@branchharbor.local`;
   const workspacePath = path.join(config.runtimeRoot, "preview-ui", projectId);
-  const marker = `CloudAgent Browser Preview ${projectId.slice(0, 8)}`;
+  const marker = `BranchHarbor Browser Preview ${projectId.slice(0, 8)}`;
 
   await query("INSERT INTO users (id, email, name) VALUES ($1,$2,$3)", [
     userId,
@@ -60,7 +60,7 @@ async function createFixture() {
   const task = await insertTask({
     projectId,
     title: "Browser QA for live task preview",
-    description: "Temporary fixture for visually validating the CloudAgent preview UI.",
+    description: "Temporary fixture for visually validating the BranchHarbor preview UI.",
     acceptanceCriteria: "The embedded application and controls render correctly.",
     verificationCommands: [],
     assignedUserId: userId,

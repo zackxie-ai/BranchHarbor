@@ -141,7 +141,7 @@ async function main() {
   try {
     await query("INSERT INTO users (id, email, name) VALUES ($1,$2,$3)", [
       memberId,
-      `task-dependency-management-${memberId.slice(0, 8)}@cloudagent.local`,
+      `task-dependency-management-${memberId.slice(0, 8)}@branchharbor.local`,
       "Dependency Management Member",
     ]);
     await query(
@@ -271,7 +271,7 @@ async function main() {
     }
     expectRevision(initialCreationHistory[0], {
       actorId: adminId,
-      actorName: "CloudAgent Admin",
+      actorName: "BranchHarbor Admin",
       changeKind: "task_created",
       changeReason: null,
       previousDependencies: [],
@@ -436,7 +436,7 @@ async function main() {
     }
     expectRevision(replacementHistory[0], {
       actorId: adminId,
-      actorName: "CloudAgent Admin",
+      actorName: "BranchHarbor Admin",
       changeKind: "failure_recovery",
       changeReason: replacementReason,
       previousDependencies: [
@@ -490,7 +490,7 @@ async function main() {
     }
     expectRevision(removalRecoveryHistory[0], {
       actorId: adminId,
-      actorName: "CloudAgent Admin",
+      actorName: "BranchHarbor Admin",
       changeKind: "failure_recovery",
       changeReason: removalReason,
       previousDependencies: [
@@ -529,7 +529,7 @@ async function main() {
     );
     expectRevision(rejectedRecoveryHistory[0], {
       actorId: adminId,
-      actorName: "CloudAgent Admin",
+      actorName: "BranchHarbor Admin",
       changeKind: "failure_recovery",
       changeReason: rejectedRemovalReason,
       previousDependencies: [
@@ -572,7 +572,7 @@ async function main() {
     }
     expectRevision(additionHistory[0], {
       actorId: adminId,
-      actorName: "CloudAgent Admin",
+      actorName: "BranchHarbor Admin",
       changeKind: "manual_update",
       changeReason: null,
       previousDependencies: [],
@@ -687,7 +687,7 @@ async function main() {
     ];
     expectRevision(removalRevision, {
       actorId: adminId,
-      actorName: "CloudAgent Admin",
+      actorName: "BranchHarbor Admin",
       changeKind: "manual_update",
       changeReason: null,
       previousDependencies: mergedDependencySnapshot,
@@ -700,7 +700,7 @@ async function main() {
     }
     expectRevision(additionRevision, {
       actorId: adminId,
-      actorName: "CloudAgent Admin",
+      actorName: "BranchHarbor Admin",
       changeKind: "manual_update",
       changeReason: null,
       previousDependencies: [],

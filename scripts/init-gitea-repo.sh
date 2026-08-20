@@ -9,7 +9,7 @@ source .env
 set +a
 
 api="http://127.0.0.1:${GITEA_HTTP_PORT}/api/v1"
-repository_name="cloudagent"
+repository_name="branchharbor"
 response_file="$(mktemp)"
 trap 'rm "$response_file"' EXIT
 
@@ -21,7 +21,7 @@ if [[ "$http_status" == "404" ]]; then
   curl -fsS \
     -u "${GITEA_ADMIN_USER}:${GITEA_ADMIN_PASSWORD}" \
     -H 'Content-Type: application/json' \
-    -d '{"name":"cloudagent","description":"CloudAgent control plane and integration workspace","private":true,"auto_init":false,"default_branch":"main"}' \
+    -d '{"name":"branchharbor","description":"BranchHarbor control plane and integration workspace","private":true,"auto_init":false,"default_branch":"main"}' \
     "$api/user/repos" >"$response_file"
   echo "Created Gitea repository ${GITEA_ADMIN_USER}/${repository_name}"
 elif [[ "$http_status" != "200" ]]; then

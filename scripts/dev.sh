@@ -12,13 +12,13 @@ set -a
 source .env
 set +a
 
-export CLOUDAGENT_ROOT="$ROOT_DIR"
+export BRANCHHARBOR_ROOT="$ROOT_DIR"
 export CONTROL_PLANE_PORT="${CONTROL_PLANE_PORT:-3210}"
 export DATABASE_URL="${DATABASE_URL:-postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@127.0.0.1:${POSTGRES_PORT}/${POSTGRES_USER}}"
 export GITEA_BASE_URL="${GITEA_BASE_URL:-http://127.0.0.1:${GITEA_HTTP_PORT}}"
 
 pnpm db:migrate
-pnpm --filter @cloudagent/control-plane worker &
+pnpm --filter @branchharbor/control-plane worker &
 WORKER_PID=$!
 
 cleanup() {
@@ -26,4 +26,4 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
-pnpm --filter @cloudagent/control-plane dev
+pnpm --filter @branchharbor/control-plane dev

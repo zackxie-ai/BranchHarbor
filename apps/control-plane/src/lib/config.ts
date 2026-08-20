@@ -11,39 +11,39 @@ function findRepositoryRoot(start: string): string {
     current = path.dirname(current);
   }
 
-  throw new Error("Unable to locate the CloudAgent repository root");
+  throw new Error("Unable to locate the BranchHarbor repository root");
 }
 
-const repositoryRoot = process.env.CLOUDAGENT_ROOT
-  ? path.resolve(process.env.CLOUDAGENT_ROOT)
+const repositoryRoot = process.env.BRANCHHARBOR_ROOT
+  ? path.resolve(process.env.BRANCHHARBOR_ROOT)
   : findRepositoryRoot(process.cwd());
 
-const databaseUser = process.env.POSTGRES_USER ?? "cloudagent";
-const databasePassword = process.env.POSTGRES_PASSWORD ?? "cloudagent-local-change-me";
+const databaseUser = process.env.POSTGRES_USER ?? "branchharbor";
+const databasePassword = process.env.POSTGRES_PASSWORD ?? "branchharbor-local-change-me";
 const databasePort = process.env.POSTGRES_PORT ?? "5432";
 
 export const config = {
   repositoryRoot,
-  runtimeRoot: process.env.CLOUDAGENT_RUNTIME_ROOT
-    ? path.resolve(process.env.CLOUDAGENT_RUNTIME_ROOT)
+  runtimeRoot: process.env.BRANCHHARBOR_RUNTIME_ROOT
+    ? path.resolve(process.env.BRANCHHARBOR_RUNTIME_ROOT)
     : path.join(repositoryRoot, "runtime"),
   databaseUrl:
     process.env.DATABASE_URL ??
     `postgresql://${encodeURIComponent(databaseUser)}:${encodeURIComponent(databasePassword)}@127.0.0.1:${databasePort}/${encodeURIComponent(databaseUser)}`,
   gitea: {
     baseUrl: process.env.GITEA_BASE_URL ?? "http://127.0.0.1:3100",
-    owner: process.env.GITEA_ADMIN_USER ?? "cloudagent-admin",
-    username: process.env.GITEA_ADMIN_USER ?? "cloudagent-admin",
-    password: process.env.GITEA_ADMIN_PASSWORD ?? "cloudagent-admin-change-me",
+    owner: process.env.GITEA_ADMIN_USER ?? "branchharbor-admin",
+    username: process.env.GITEA_ADMIN_USER ?? "branchharbor-admin",
+    password: process.env.GITEA_ADMIN_PASSWORD ?? "branchharbor-admin-change-me",
   },
   openbao: {
     baseUrl: `http://127.0.0.1:${process.env.OPENBAO_PORT ?? "8200"}`,
-    token: process.env.OPENBAO_DEV_ROOT_TOKEN ?? "cloudagent-local-root-token",
+    token: process.env.OPENBAO_DEV_ROOT_TOKEN ?? "branchharbor-local-root-token",
   },
   temporal: {
     address: process.env.TEMPORAL_ADDRESS ?? `127.0.0.1:${process.env.TEMPORAL_GRPC_PORT ?? "7233"}`,
     namespace: process.env.TEMPORAL_NAMESPACE ?? "default",
-    taskQueue: process.env.TEMPORAL_TASK_QUEUE ?? "cloudagent-control-plane",
+    taskQueue: process.env.TEMPORAL_TASK_QUEUE ?? "branchharbor-control-plane",
     disableHttpProxy: process.env.TEMPORAL_DISABLE_HTTP_PROXY !== "false",
   },
   runner: {
@@ -55,7 +55,7 @@ export const config = {
     previewHostSuffix: process.env.RUNNER_PREVIEW_HOST_SUFFIX ?? "preview.localhost",
   },
   auth: {
-    cookieName: process.env.AUTH_COOKIE_NAME ?? "cloudagent_session",
+    cookieName: process.env.AUTH_COOKIE_NAME ?? "branchharbor_session",
     sessionTtlSeconds: Number(process.env.AUTH_SESSION_TTL_SECONDS ?? 60 * 60 * 24 * 7),
     secureCookies:
       process.env.AUTH_SECURE_COOKIES === "true" || process.env.NODE_ENV === "production",

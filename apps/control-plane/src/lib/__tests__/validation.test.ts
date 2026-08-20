@@ -46,14 +46,14 @@ describe("Agent connection validation", () => {
 describe("Project validation", () => {
   it("normalizes a human-entered repository identifier", () => {
     const project = createProjectSchema.parse({
-      name: "CloudAgent Project",
+      name: "BranchHarbor Project",
       slug: " My__Cloud--Project- ",
     });
 
     expect(project.slug).toBe("my-cloud-project");
   });
 
-  it("allows CloudAgent to generate the identifier", () => {
+  it("allows BranchHarbor to generate the identifier", () => {
     const project = createProjectSchema.parse({
       name: "Project with Unicode input",
       slug: "🚀",

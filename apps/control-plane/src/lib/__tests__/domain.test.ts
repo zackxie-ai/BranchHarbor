@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { parseCodexJsonLines } from "../agent-gateway";
 import { assertChangeRequestTransition, assertTaskTransition } from "../domain";
 
-describe("CloudAgent workflow state machine", () => {
+describe("BranchHarbor workflow state machine", () => {
   it("allows a task to move through workspace, submission, integration, and merge", () => {
     expect(() => assertTaskTransition("draft", "workspace_ready")).not.toThrow();
     expect(() => assertTaskTransition("workspace_ready", "submitted")).not.toThrow();

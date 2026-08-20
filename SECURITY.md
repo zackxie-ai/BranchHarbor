@@ -2,7 +2,7 @@
 
 ## Supported versions
 
-CloudAgent is alpha software. Security fixes are provided only for the latest commit on `main` and the latest tagged `0.1.x-alpha` release.
+BranchHarbor is alpha software. Security fixes are provided only for the latest commit on `main` and the latest tagged `0.1.x-alpha` release.
 
 | Version | Supported |
 |---|---|

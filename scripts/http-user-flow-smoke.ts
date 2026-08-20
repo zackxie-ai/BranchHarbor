@@ -83,10 +83,10 @@ async function main() {
        VALUES ($1,$2,$3),($4,$5,$6)`,
       [
         adminId,
-        `http-admin-${suffix}@cloudagent.local`,
+        `http-admin-${suffix}@branchharbor.local`,
         "HTTP Smoke Admin",
         memberId,
-        `http-member-${suffix}@cloudagent.local`,
+        `http-member-${suffix}@branchharbor.local`,
         "HTTP Smoke Member",
       ],
     );

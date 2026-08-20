@@ -56,7 +56,7 @@ async function main() {
     await execFileAsync("git", ["init", "--bare", remotePath]);
     await execFileAsync("git", ["init", "-b", "main", seedPath]);
     await git(seedPath, ["config", "user.name", "Workspace Progress Smoke"]);
-    await git(seedPath, ["config", "user.email", "workspace-progress@cloudagent.local"]);
+    await git(seedPath, ["config", "user.email", "workspace-progress@branchharbor.local"]);
     await mkdir(path.join(seedPath, "src/legacy"), { recursive: true });
     await mkdir(path.join(seedPath, "src/users"), { recursive: true });
     await writeFile(path.join(seedPath, "shared.txt"), "base\n");
@@ -77,7 +77,7 @@ async function main() {
 
     await query("INSERT INTO users (id, email, name) VALUES ($1,$2,$3)", [
       memberId,
-      `workspace-progress-${memberId.slice(0, 8)}@cloudagent.local`,
+      `workspace-progress-${memberId.slice(0, 8)}@branchharbor.local`,
       "Workspace Progress Member",
     ]);
     await query(

@@ -113,7 +113,7 @@ export const createAgentConnectionSchema = z.object({
     context.addIssue({
       code: "custom",
       path: ["protocol"],
-      message: "Codex currently uses the CloudAgent local JSONL adapter, not ACP",
+      message: "Codex currently uses the BranchHarbor local JSONL adapter, not ACP",
     });
   }
   if (connection.protocol === "openai-compatible") {

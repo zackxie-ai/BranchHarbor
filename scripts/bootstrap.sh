@@ -27,7 +27,7 @@ if [[ ! -f .env ]]; then
 fi
 
 cat <<'WARNING'
-CloudAgent v0.1.0-alpha uses local development credentials and OpenBao dev mode.
+BranchHarbor v0.1.0-alpha uses local development credentials and OpenBao dev mode.
 Do not expose this stack to the public internet. Read SECURITY.md first.
 WARNING
 
@@ -37,7 +37,7 @@ set +a
 
 mkdir -p infra/data
 
-echo "Starting CloudAgent infrastructure..."
+echo "Starting BranchHarbor infrastructure..."
 docker compose --env-file .env -f infra/compose.yml up -d --wait --wait-timeout 180
 
 echo "Waiting for Gitea..."
@@ -77,14 +77,14 @@ echo "Initializing OpenBao development KV mount..."
 docker compose --env-file .env -f infra/compose.yml exec -T \
   -e BAO_ADDR=http://127.0.0.1:8200 \
   -e BAO_TOKEN="${OPENBAO_DEV_ROOT_TOKEN}" \
-  openbao bao secrets enable -path=cloudagent kv-v2 >/dev/null 2>&1 || true
+  openbao bao secrets enable -path=branchharbor kv-v2 >/dev/null 2>&1 || true
 docker compose --env-file .env -f infra/compose.yml exec -T \
   -e BAO_ADDR=http://127.0.0.1:8200 \
   -e BAO_TOKEN="${OPENBAO_DEV_ROOT_TOKEN}" \
-  openbao bao kv put cloudagent/bootstrap initialized=true >/dev/null
+  openbao bao kv put branchharbor/bootstrap initialized=true >/dev/null
 
 echo
-echo "CloudAgent infrastructure is ready."
+echo "BranchHarbor infrastructure is ready."
 echo "Gitea:      http://localhost:${GITEA_HTTP_PORT}"
 echo "OpenBao:    http://localhost:${OPENBAO_PORT}"
 echo "PostgreSQL: localhost:${POSTGRES_PORT}"

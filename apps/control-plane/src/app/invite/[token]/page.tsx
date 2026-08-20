@@ -28,7 +28,7 @@ export default async function InvitationPage({
     return (
       <section className="auth-shell">
         <div className="panel auth-panel">
-          <span className="eyebrow">CloudAgent invitation</span>
+          <span className="eyebrow">BranchHarbor invitation</span>
           <h1>Unable to accept invitation</h1>
           <div className="auth-error" role="alert">{message}</div>
           <Link className="button secondary" href="/login">Return to sign in</Link>
@@ -42,7 +42,7 @@ export default async function InvitationPage({
     <section className="auth-shell">
       <div className="panel auth-panel">
         <span className="eyebrow">Invited by {invitation.invitedByName}</span>
-        <h1>Create your CloudAgent account</h1>
+        <h1>Create your BranchHarbor account</h1>
         <p><strong>{invitation.name}</strong>, you will join the team as a <code>{invitation.role}</code>.</p>
         <dl className="definition compact-definition">
           <dt>Account email</dt><dd>{invitation.email}</dd>

@@ -44,7 +44,7 @@ async function expectAppError(
 async function insertMember(userId: string, name: string) {
   await query("INSERT INTO users (id, email, name) VALUES ($1,$2,$3)", [
     userId,
-    `project-member-${userId.slice(0, 8)}@cloudagent.local`,
+    `project-member-${userId.slice(0, 8)}@branchharbor.local`,
     name,
   ]);
   await query(

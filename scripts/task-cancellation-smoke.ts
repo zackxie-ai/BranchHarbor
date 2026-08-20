@@ -1,6 +1,8 @@
+import { execFile } from "node:child_process";
 import { randomUUID } from "node:crypto";
 import { access, mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { promisify } from "node:util";
 
 import { config } from "../apps/control-plane/src/lib/config";
 import { query } from "../apps/control-plane/src/lib/db";
@@ -13,18 +15,28 @@ import {
   insertProject,
   insertTask,
   listTaskPreviewRuns,
-  updateTaskWorkspace,
 } from "../apps/control-plane/src/lib/repositories";
-import { destroyRunner, launchTaskRunner } from "../apps/control-plane/src/lib/runner";
-import { cancelTask, startTaskPreview } from "../apps/control-plane/src/lib/services";
+import { destroyRunner } from "../apps/control-plane/src/lib/runner";
+import {
+  cancelTask,
+  provisionTaskWorkspace,
+  startTaskPreview,
+} from "../apps/control-plane/src/lib/services";
 import { durableCancelTask } from "../apps/control-plane/src/temporal/client";
 
+const execFileAsync = promisify(execFile);
 const adminId = "00000000-0000-4000-8000-000000000101";
 const unrelatedMemberId = "00000000-0000-4000-8000-000000000102";
 const operatorId = randomUUID();
 const projectId = randomUUID();
-const projectRoot = path.join(config.runtimeRoot, "task-cancellation-smoke", projectId);
-const workspacePath = path.join(projectRoot, "worktree");
+const fixtureRoot = path.join(config.runtimeRoot, "task-cancellation-smoke", projectId);
+const originPath = path.join(fixtureRoot, "origin.git");
+const seedPath = path.join(fixtureRoot, "seed");
+const repositoryPath = path.join(fixtureRoot, "repository");
+
+async function git(cwd: string, args: string[]) {
+  return execFileAsync("git", args, { cwd });
+}
 
 async function expectAppError(
   action: () => Promise<unknown>,
@@ -53,26 +65,37 @@ async function pathExists(target: string): Promise<boolean> {
 async function main() {
   let taskId: string | null = null;
   let runnerCredentialRef: string | null = null;
+  let workspacePath: string | null = null;
   try {
+    await mkdir(fixtureRoot, { recursive: true });
+    await execFileAsync("git", ["init", "--bare", originPath]);
+    await execFileAsync("git", ["init", "-b", "main", seedPath]);
+    await git(seedPath, ["config", "user.name", "Task Cancellation Smoke"]);
+    await git(seedPath, ["config", "user.email", "cancellation@branchharbor.local"]);
+    await writeFile(path.join(seedPath, "README.md"), "BranchHarbor cancellation smoke\n");
+    await git(seedPath, ["add", "README.md"]);
+    await git(seedPath, ["commit", "-m", "Base"]);
+    await git(seedPath, ["remote", "add", "origin", originPath]);
+    await git(seedPath, ["push", "-u", "origin", "main"]);
+    await execFileAsync("git", ["--git-dir", originPath, "symbolic-ref", "HEAD", "refs/heads/main"]);
+
     await query("INSERT INTO users (id, email, name) VALUES ($1,$2,$3)", [
       operatorId,
-      `task-cancel-${operatorId.slice(0, 8)}@cloudagent.local`,
+      `task-cancel-${operatorId.slice(0, 8)}@branchharbor.local`,
       "Task Cancellation Operator",
     ]);
     await query(
       "INSERT INTO memberships (organization_id, user_id, role) VALUES ($1,$2,'member')",
       [config.organizationId, operatorId],
     );
-    await mkdir(workspacePath, { recursive: true });
-    await writeFile(path.join(workspacePath, "README.md"), "CloudAgent cancellation smoke\n");
     await insertProject({
       id: projectId,
       name: "Task Cancellation Smoke",
       slug: `task-cancel-${projectId.slice(0, 8)}`,
       giteaOwner: "smoke",
       giteaRepository: `task-cancel-${projectId.slice(0, 8)}`,
-      repositoryUrl: projectRoot,
-      localRepositoryPath: projectRoot,
+      repositoryUrl: originPath,
+      localRepositoryPath: repositoryPath,
       actorId: adminId,
     });
     await addProjectMembership({ projectId, userId: operatorId, addedBy: adminId });
@@ -86,13 +109,12 @@ async function main() {
       actorId: adminId,
     });
     taskId = task.id;
-    await updateTaskWorkspace({
-      taskId: task.id,
-      baseCommit: "cancel-smoke-base",
-      branchName: `task/cancel-smoke-${task.id.slice(0, 8)}`,
-      worktreePath: workspacePath,
-    });
-    const runner = await launchTaskRunner(task.id, workspacePath);
+    const provisioned = await provisionTaskWorkspace(task.id, operatorId);
+    workspacePath = provisioned.task.worktreePath;
+    if (!workspacePath) {
+      throw new Error("Task workspace was not provisioned");
+    }
+    const runner = provisioned.runner;
     runnerCredentialRef = runner.credentialRef;
     const preview = await startTaskPreview(
       task.id,
@@ -232,7 +254,7 @@ async function main() {
       () => undefined,
     );
     await query("DELETE FROM users WHERE id = $1", [operatorId]).catch(() => undefined);
-    await rm(projectRoot, { recursive: true, force: true });
+    await rm(fixtureRoot, { recursive: true, force: true });
   }
 }
 

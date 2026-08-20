@@ -45,7 +45,7 @@ for blocked_file in "${blocked_files[@]}"; do
 done
 
 for blocked_directory in "${blocked_directories[@]}"; do
-  if ! git check-ignore --no-index -q "$blocked_directory/.cloudagent-ignore-check"; then
+  if ! git check-ignore --no-index -q "$blocked_directory/.branchharbor-ignore-check"; then
     echo "Release-sensitive directory is not ignored: $blocked_directory" >&2
     exit 1
   fi
@@ -81,6 +81,15 @@ fi
 
 if xargs -r rg -n '[\p{Han}\p{Hiragana}\p{Katakana}\p{Hangul}]' < "$candidate_files"; then
   echo "Non-English CJK text was found in the release tree." >&2
+  exit 1
+fi
+
+brand_candidate_files="$(mktemp)"
+trap 'rm -f "$candidate_files" "$brand_candidate_files"' EXIT
+grep -v '^infra/postgres/migrations/001_control_plane.sql$' "$candidate_files" > "$brand_candidate_files"
+
+if xargs -r rg -n -i 'cloud''agent' < "$brand_candidate_files"; then
+  echo "A legacy product identifier was found outside the historical bootstrap migration." >&2
   exit 1
 fi
 

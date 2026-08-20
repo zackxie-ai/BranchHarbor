@@ -34,10 +34,10 @@ const otherMemberId = randomUUID();
 const projectId = randomUUID();
 const runnerId = randomUUID();
 const runtimePath = path.join(config.runtimeRoot, "credential-lifecycle-smoke", projectId);
-const firstApiKey = `cloudagent-credential-first-${randomUUID()}`;
-const secondApiKey = `cloudagent-credential-second-${randomUUID()}`;
-const thirdApiKey = `cloudagent-credential-third-${randomUUID()}`;
-const fourthApiKey = `cloudagent-credential-fourth-${randomUUID()}`;
+const firstApiKey = `branchharbor-credential-first-${randomUUID()}`;
+const secondApiKey = `branchharbor-credential-second-${randomUUID()}`;
+const thirdApiKey = `branchharbor-credential-third-${randomUUID()}`;
+const fourthApiKey = `branchharbor-credential-fourth-${randomUUID()}`;
 
 async function expectAppError(
   action: () => Promise<unknown>,
@@ -57,7 +57,7 @@ async function expectAppError(
 async function insertMember(userId: string, label: string) {
   await query("INSERT INTO users (id, email, name) VALUES ($1,$2,$3)", [
     userId,
-    `credential-lifecycle-${label}-${userId.slice(0, 8)}@cloudagent.local`,
+    `credential-lifecycle-${label}-${userId.slice(0, 8)}@branchharbor.local`,
     `Credential ${label}`,
   ]);
   await query(

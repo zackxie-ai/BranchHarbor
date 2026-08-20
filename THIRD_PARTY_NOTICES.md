@@ -1,6 +1,6 @@
 # Third-party notices
 
-CloudAgent source code is licensed under MIT. Dependencies and container images are separate works and retain their own licenses.
+BranchHarbor source code is licensed under MIT. Dependencies and container images are separate works and retain their own licenses.
 
 The repository does not vendor `node_modules` or container image files. Exact JavaScript dependency versions are recorded in `pnpm-lock.yaml`; exact validated container versions and digests are recorded in `infra/IMAGES.lock.md`.
 
@@ -23,4 +23,4 @@ Generate the dependency inventory from the lockfile with:
 pnpm licenses list --prod
 ```
 
-Container images used by the local stack include PostgreSQL, Gitea, Temporal, OpenBao, and AIO Sandbox. Review each image's upstream license and notices before redistributing an image or a bundled appliance. CloudAgent's MIT license does not replace those terms.
+Container images used by the local stack include PostgreSQL, Gitea, Temporal, OpenBao, and AIO Sandbox. Review each image's upstream license and notices before redistributing an image or a bundled appliance. BranchHarbor's MIT license does not replace those terms.

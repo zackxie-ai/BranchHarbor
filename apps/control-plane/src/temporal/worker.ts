@@ -20,7 +20,7 @@ async function main() {
   });
 
   console.log(
-    `CloudAgent Temporal worker listening on ${config.temporal.address} queue ${config.temporal.taskQueue}`,
+    `BranchHarbor Temporal worker listening on ${config.temporal.address} queue ${config.temporal.taskQueue}`,
   );
   await worker.run();
 }

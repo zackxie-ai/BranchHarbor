@@ -1,15 +1,15 @@
-# CloudAgent Product Vision
+# BranchHarbor Product Vision
 
 > Status: active product direction
 > Last confirmed: 2026-08-20
 
 ## Definition
 
-CloudAgent is a multi-user cloud development control plane for AI-assisted software teams. Each task runs in an isolated Git Worktree and Runner. Every member brings their own coding Agent or model API and credentials. The platform shares verified progress and gives an Admin controlled, two-stage integration authority over the canonical project.
+BranchHarbor is a multi-user cloud development control plane for AI-assisted software teams. Each task runs in an isolated Git Worktree and Runner. Every member brings their own coding Agent or model API and credentials. The platform shares verified progress and gives an Admin controlled, two-stage integration authority over the canonical project.
 
 ## Non-negotiable outcomes
 
-CloudAgent must support:
+BranchHarbor must support:
 
 1. multiple authenticated team members;
 2. browser access from separate computers;
@@ -24,12 +24,12 @@ CloudAgent must support:
 11. separate integration and final approvals;
 12. durable audit evidence for permissions, credentials, Git state, and merges.
 
-An architecture that only lets multiple Agents chat, but lacks user isolation, task Worktrees, BYOK, verified progress, and controlled integration, does not satisfy the CloudAgent vision.
+An architecture that only lets multiple Agents chat, but lacks user isolation, task Worktrees, BYOK, verified progress, and controlled integration, does not satisfy the BranchHarbor vision.
 
 ## Product model
 
 ```text
-CloudAgent project
+BranchHarbor project
 |-- main                         protected accepted state
 |-- task/<id>-<slug>             member task branch
 |   |-- dedicated Worktree
@@ -43,13 +43,13 @@ CloudAgent project
 
 ## Evidence model
 
-Agent prose is useful context but never authoritative. CloudAgent independently records or verifies branch and Commit identities, changed files, rename history, Diff statistics, ancestry, Worktree cleanliness, checkpoints, command output, exit codes, Runner lifecycle, credential leases, approvals, integration order, and final `main` updates.
+Agent prose is useful context but never authoritative. BranchHarbor independently records or verifies branch and Commit identities, changed files, rename history, Diff statistics, ancestry, Worktree cleanliness, checkpoints, command output, exit codes, Runner lifecycle, credential leases, approvals, integration order, and final `main` updates.
 
 ## Collaboration model
 
 The project page should let a team understand work without opening every environment: intended and actual changes, ownership, assigned Agent, dependencies, Git progress, main drift, overlap, verification, previews, review state, and integration readiness.
 
-CloudAgent uses soft coordination and explicit dependencies rather than pretending that static path locks can understand every semantic conflict.
+BranchHarbor uses soft coordination and explicit dependencies rather than pretending that static path locks can understand every semantic conflict.
 
 ## Integration model
 
@@ -76,4 +76,4 @@ The current release is a functional local Alpha. It demonstrates the full contro
 
 ## Success criteria
 
-CloudAgent succeeds when a team can independently develop multiple tasks with different Agents and providers, understand real progress from one place, detect integration risk early, and merge approved work into one project without giving task Agents direct control of `main`.
+BranchHarbor succeeds when a team can independently develop multiple tasks with different Agents and providers, understand real progress from one place, detect integration risk early, and merge approved work into one project without giving task Agents direct control of `main`.

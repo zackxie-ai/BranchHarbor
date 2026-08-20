@@ -1,11 +1,11 @@
-# CloudAgent original product scope
+# BranchHarbor original product scope
 
-The reusable foundation is installed. The following capabilities are the CloudAgent-specific work that still must be designed and implemented.
+The reusable foundation is installed. The following capabilities are the BranchHarbor-specific work that still must be designed and implemented.
 
 ## 1. Control plane
 
 - organizations, memberships, roles, and invitations;
-- CloudAgent projects backed by one canonical Gitea repository;
+- BranchHarbor projects backed by one canonical Gitea repository;
 - user-to-agent and user-to-credential bindings;
 - project policy, audit trail, quotas, and usage accounting.
 
@@ -48,4 +48,4 @@ The reusable foundation is installed. The following capabilities are the CloudAg
 - implement PostgreSQL migrations, backups, observability, and disaster recovery;
 - add production authentication, CSRF protection, rate limiting, and tenant isolation.
 
-These are the parts that make the product CloudAgent rather than a repackaging of its Git, workflow, secret-storage, or runner infrastructure.
+These are the parts that make the product BranchHarbor rather than a repackaging of its Git, workflow, secret-storage, or runner infrastructure.
